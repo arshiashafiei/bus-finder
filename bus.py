@@ -27,7 +27,7 @@ def bus_exist(url: str) -> bool:
         )
     except TimeoutError as e:
         print(e)
-        send_email(EMAILS[:1])
+        send_email(EMAILS[:1], ":)")
         raise e
 
     html = browser.page_source
@@ -45,20 +45,20 @@ def bus_exist(url: str) -> bool:
         return True
 
 
-def send_email(email_list: list[str]) -> None:
+def send_email(email_list: list[str], message: str) -> None:
 
     port = 465  # For SSL
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login(SENDER_EMAIL, PASSWORD)
         for email in EMAILS:
-            server.sendmail(SENDER_EMAIL, email, "BUUUUUUUUUUUUUUUS!!!")
+            server.sendmail(SENDER_EMAIL, email, message)
 
 
 def main() -> bool:
     for url in URLS:
         if bus_exist(url):
-            send_email(EMAILS)
+            send_email(EMAILS, "OTOOOOOOOOOOBOOS!!!")
             return True
         else:
             print("No Bus Found!")
