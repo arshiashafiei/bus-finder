@@ -19,8 +19,8 @@ def bus_exist(url: str) -> bool:
     browser.get(url)
 
     try:
-        x_path = ("/html/body/div[1]/div[1]/main/div/div",
-                  "/section/div[1]/div[2]/p")
+        x_path = "/html/body/div[1]/div[1]/main/div/div" \
+                 "/section/div[1]/div[2]/p"
         WebDriverWait(browser, 10).until(
             expected_conditions.presence_of_element_located(
                 (By.XPATH, x_path))
