@@ -12,7 +12,7 @@ from typing import Optional
 from config import URLS, EMAILS, SENDER_EMAIL, PASSWORD
 
 
-def bus_exist(url: str) -> Optional[bool]:
+def bus_exist(url: str) -> bool:
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')
     browser = webdriver.Firefox(
@@ -27,7 +27,7 @@ def bus_exist(url: str) -> Optional[bool]:
     except TimeoutError as e:
         print(e)
         send_email(EMAILS[:1])
-        return None
+        raise e
 
     html = browser.page_source
     browser.quit()
