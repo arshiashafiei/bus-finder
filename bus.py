@@ -1,5 +1,6 @@
 import smtplib
 import ssl
+import time
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -42,7 +43,7 @@ def bus_exist(url: str) -> Optional[bool]:
         return True
 
 
-def send_email(email_list: list[str]):
+def send_email(email_list: list[str]) -> None:
 
     port = 465  # For SSL
     context = ssl.create_default_context()
@@ -52,7 +53,13 @@ def send_email(email_list: list[str]):
             server.sendmail(SENDER_EMAIL, email, "BUUUUUUUUUUUUUUUS!!!")
 
 
-if __name__ == "__main__":
+def main():
     for url in URLS:
         if bus_exist(url):
             send_email(EMAILS)
+
+
+if __name__ == "__main__":
+    while True:
+        main()
+        time.sleep(60)
