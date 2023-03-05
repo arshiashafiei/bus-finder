@@ -7,7 +7,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
-from typing import Optional
 
 from config import URLS, EMAILS, SENDER_EMAIL, PASSWORD
 
@@ -20,9 +19,11 @@ def bus_exist(url: str) -> bool:
     browser.get(url)
 
     try:
+        x_path = ("/html/body/div[1]/div[1]/main/div/div",
+                  "/section/div[1]/div[2]/p")
         WebDriverWait(browser, 10).until(
             expected_conditions.presence_of_element_located(
-                (By.XPATH, "/html/body/div[1]/div[1]/main/div/div/section/div[1]/div[2]/p"))
+                (By.XPATH, x_path))
         )
     except TimeoutError as e:
         print(e)
@@ -36,7 +37,8 @@ def bus_exist(url: str) -> bool:
 
     try:
         # print(soup.body.main.section.find("div"))
-        if soup.body.main.section.find("div").get_text() == " موجودی اتوبوس‌ها در این تاریخ به اتمام رسیده است. ":
+        alert_text = " موجودی اتوبوس‌ها در این تاریخ به اتمام رسیده است. "
+        if soup.body.main.section.find("div").get_text() == alert_text:
             return False
         return True
     except Exception as e:
