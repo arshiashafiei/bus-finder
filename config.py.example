@@ -1,0 +1,9 @@
+URLS = ["https://www.alibaba.ir/bus/IFN-THR?departing=1401-12-22",
+        "https://www.alibaba.ir/bus/IFN-THR?departing=1401-12-23",
+        "https://www.alibaba.ir/bus/IFN-THR?departing=1401-12-24"
+        ]
+
+EMAILS = ["example@gmail.com"]
+
+SENDER_EMAIL = "your_email"
+PASSWORD = "secret"

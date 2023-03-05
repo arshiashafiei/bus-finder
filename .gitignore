@@ -1,0 +1,4 @@
+*.log
+.env/
+config.py
+.vscode/
