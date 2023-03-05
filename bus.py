@@ -55,13 +55,21 @@ def send_email(email_list: list[str]) -> None:
             server.sendmail(SENDER_EMAIL, email, "BUUUUUUUUUUUUUUUS!!!")
 
 
-def main():
+def main() -> bool:
     for url in URLS:
         if bus_exist(url):
             send_email(EMAILS)
+            return True
+        else:
+            print("No Bus Found!")
+
+    print("Retrying...")
+    return False
 
 
 if __name__ == "__main__":
     while True:
-        main()
+        found: bool = main()
+        if found:
+            break
         time.sleep(60)
