@@ -7,6 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
+from selenium.common.exceptions import TimeoutException
 
 from config import URLS, EMAILS, SENDER_EMAIL, PASSWORD
 
@@ -19,16 +20,16 @@ def bus_exist(url: str) -> bool:
     browser.get(url)
 
     try:
+        # connection error cannot happen here
         x_path = "/html/body/div[1]/div[1]/main/div/div" \
                  "/section/div[1]/div[2]/p"
-        WebDriverWait(browser, 10).until(
+        WebDriverWait(browser, 15).until(
             expected_conditions.presence_of_element_located(
                 (By.XPATH, x_path))
         )
-    except TimeoutError as e:
+    except TimeoutException as e:
         print(e)
-        send_email(EMAILS[:1], ":)")
-        raise e
+        return True
 
     html = browser.page_source
     browser.quit()
@@ -51,7 +52,7 @@ def send_email(email_list: list[str], message: str) -> None:
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login(SENDER_EMAIL, PASSWORD)
-        for email in EMAILS:
+        for email in email_list:
             server.sendmail(SENDER_EMAIL, email, message)
 
 
